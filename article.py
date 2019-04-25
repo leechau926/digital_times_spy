@@ -46,3 +46,19 @@ if __name__ == '__main__':
         response.encoding = 'utf-8'
         text = response.content
         get_item(text)
+
+"""
+TABLE articles CREATE SQL:
+CREATE TABLE `articles` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(200) DEFAULT NULL,
+  `origin_url` longtext,
+  `collect_date` varchar(45) DEFAULT NULL,
+  `collect_time` varchar(45) DEFAULT NULL,
+  `category` varchar(200) DEFAULT NULL,
+  `tag` varchar(200) DEFAULT NULL,
+  `entry` longtext,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
+"""
