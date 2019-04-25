@@ -1,2 +1,2 @@
 # digital_times_spy
-get digital tims article list
+get digital times article list
