@@ -7,7 +7,7 @@ headers = {
 }
 
 def get_page_max(url):
-    html = requests.get(url, headers=headers)
+    html = requests.get(url, headers=headers).content
     soup = BeautifulSoup(html, 'lxml')
     pagenavi = soup.find(attrs={'class': 'wp-pagenavi'})
     max_page_url = pagenavi.find(attrs={'class': 'last'})['href']
@@ -15,7 +15,7 @@ def get_page_max(url):
     return page_max
 
 def get_item(url):
-    html = requests.get(url, headers=headers)
+    html = requests.get(url, headers=headers).content
     soup = BeautifulSoup(html, 'lxml')
     post = soup.find(attrs={'id': 'content'})
     title = post.find(attrs={'class': 'title'}).string.strip()
