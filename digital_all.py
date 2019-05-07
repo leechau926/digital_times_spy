@@ -26,6 +26,7 @@ def get_urls(page_num):
         title = list.a['title']
         pas_url = list.a['href']
         urls_list.append(pas_url)
+    print('Page %d checked!' % page_num)
     return urls_list
 
 
