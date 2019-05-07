@@ -26,9 +26,10 @@ def get_urls(page_num):
         title = list.a['title']
         pas_url = list.a['href']
         urls_list.append(pas_url)
+    with open('digital_index.txt', 'a', encoding='utf-8') as indexwrite:
+        indexwrite.write('%s, %s, %s\n' % (date, title, pas_url))
     print('Page %d checked!' % page_num)
     return urls_list
-
 
 def get_item(url):
     html = requests.get(url, headers=headers).content
@@ -57,7 +58,11 @@ def get_item(url):
         if single.string:
             entry = entry + single.string + '\n'
     entry = entry.replace("'", '"')
-
+    insert_sql = """INSERT INTO articles (title, origin_url, collect_date, collect_time, category, tag, entry) 
+    VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s');\n""" % (title, origin_url, collect_date, collect_time, category, tag, entry)
+    with open('digital_article.sql', 'a', encoding='utf-8') as writesql:
+        writesql.write(insert_sql)
+    print('Article %s "%s" saved!' % (collect_date, title))
 
 if __name__ == '__main__':
     index_url = "https://chinadigitaltimes.net/chinese/%e6%9b%b4%e5%a4%9a%e6%96%87%e7%ab%a0/"
@@ -66,7 +71,9 @@ if __name__ == '__main__':
     urls = []
     for i in range(1, page_max + 1):
         urls = urls + get_urls(i)
-    print(len(urls))
+    for url in urls:
+        get_item(url)
+
 
 
 
