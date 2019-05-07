@@ -14,6 +14,21 @@ def get_page_max(url):
     page_max = int(re.findall('/(\d+)/$', max_page_url)[0])
     return page_max
 
+def get_urls(page_num):
+    index_url = "https://chinadigitaltimes.net/chinese/%e6%9b%b4%e5%a4%9a%e6%96%87%e7%ab%a0/page/" + str(page_num)
+    html = requests.get(index_url, headers=headers).content
+    soup = BeautifulSoup(html, 'lxml')
+    contents = soup.find_all(attrs={'class': 'st-related-posts'})
+    lists = contents[0].find_all('li')
+    urls_list = []
+    for list in lists:
+        date = list.find(attrs={'class': 'related_date'}).string
+        title = list.a['title']
+        pas_url = list.a['href']
+        urls_list.append(pas_url)
+    return urls_list
+
+
 def get_item(url):
     html = requests.get(url, headers=headers).content
     soup = BeautifulSoup(html, 'lxml')
@@ -43,18 +58,14 @@ def get_item(url):
     entry = entry.replace("'", '"')
 
 
-
-
-
-
-
-
 if __name__ == '__main__':
     index_url = "https://chinadigitaltimes.net/chinese/%e6%9b%b4%e5%a4%9a%e6%96%87%e7%ab%a0/"
     page_max = get_page_max(index_url)
     print(page_max)
-    # for i in range(1, page_max + 1):
-    #     print('*')
+    urls = []
+    for i in range(1, page_max + 1):
+        urls = urls + get_urls(i)
+    print(len(urls))
 
 
 
